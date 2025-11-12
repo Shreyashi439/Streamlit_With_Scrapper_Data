@@ -22,9 +22,9 @@ load_dotenv()
 
 
 st.set_page_config(page_title="College Discovery App - Staging", layout="wide")
-# api_key = st.secrets.get("GOOGLE_API_KEY", "")
-# supabase_url = st.secrets.get("SUPABASE_URL", "")
-# supabase_key = st.secrets.get("SUPABASE_KEY", "")
+api_key = st.secrets.get("GOOGLE_API_KEY", "")
+supabase_url = st.secrets.get("SUPABASE_URL", "")
+supabase_key = st.secrets.get("SUPABASE_KEY", "")
 st.title("College Discovery App - Staging Pipeline")
 st.markdown("Discover colleges with AI-powered validation → Push to staging tables for admin review")
 
@@ -752,6 +752,7 @@ if "colleges" in st.session_state:
 
     st.session_state["selected_colleges"] = selected_colleges
     st.success(f"{len(selected_colleges)} colleges selected for push.")
+
 
 
 
