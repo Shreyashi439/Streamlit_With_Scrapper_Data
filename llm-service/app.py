@@ -34,7 +34,7 @@ with st.sidebar:
     st.subheader("Gemini Configuration")
     
     api_key = st.text_input("Google API Key", 
-                           value=os.getenv("GOOGLE_API_KEY", ""),
+                           value=st.secrets.get("GOOGLE_API_KEY", ""),
                            type="password",
                            help="Get your key from https://makersuite.google.com/app/apikey")
     
@@ -45,11 +45,11 @@ with st.sidebar:
     
     st.subheader("Supabase Configuration")
     supabase_url = st.text_input("Supabase URL", 
-                                 value=os.getenv("SUPABASE_URL", ""),
+                                 value=st.secrets.get("SUPABASE_URL", ""),
                                  type="password",
                                  help="Your Supabase project URL")
     supabase_key = st.text_input("Supabase Key", 
-                                value=os.getenv("SUPABASE_KEY", ""),
+                                value=st.secrets.get("SUPABASE_KEY", ""),
                                 type="password",
                                 help="Your Supabase anon/service role key")
     
@@ -752,6 +752,7 @@ if "colleges" in st.session_state:
 
     st.session_state["selected_colleges"] = selected_colleges
     st.success(f"{len(selected_colleges)} colleges selected for push.")
+
 
 
 
