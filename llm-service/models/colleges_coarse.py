@@ -3,35 +3,47 @@
 class Courses:
     def __init__(self, name=None, description=None, duration=None, degree_level=None, seats=None,
                  annual_fees=None, entrance_exams=None, specializations=None):
-        self.name = name
-        self.description = description
-        self.duration = duration
-        self.degree_level = degree_level
-        self.seats = seats
-        self.annual_fees = annual_fees
+        self.name = name or ""
+        self.description = description or ""
+        self.duration = duration or ""
+        self.degree_level = degree_level or ""
+        self.seats = seats if seats is not None else 0
+        self.annual_fees = annual_fees if annual_fees is not None else 0
         self.entrance_exams = entrance_exams or []
         self.specializations = specializations or []
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "duration": self.duration,
+            "degree_level": self.degree_level,
+            "seats": self.seats,
+            "annual_fees": self.annual_fees,
+            "entrance_exams": self.entrance_exams,
+            "specializations": self.specializations
+        }
+
 
 class College:
     def __init__(self, name=None, description=None, address=None, city=None, state=None, zip_code=None,
                  website=None, email=None, phone=None, scholarshipdetails=None, rating=None, type=None,
                  confidence=None, evidence_status=None, evidence_urls=None, courses=None):
-        self.name = name
-        self.description = description
-        self.address = address
-        self.city = city
-        self.state = state
-        self.zip_code = zip_code
-        self.website = website
-        self.email = email
-        self.phone = phone
-        self.scholarshipdetails = scholarshipdetails
+        self.name = name or ""
+        self.description = description or ""
+        self.address = address or ""
+        self.city = city or ""
+        self.state = state or ""
+        self.zip_code = zip_code or ""
+        self.website = website or ""
+        self.email = email or ""
+        self.phone = phone or ""
+        self.scholarshipdetails = scholarshipdetails or ""
         # Ensure rating is between 1.0 and 5.0
         self.rating = max(1.0, min(float(rating) if rating is not None else 1.0, 5.0))
         self.type = type
         # Confidence defaults to 0.0 if missing, clamped 0.0–1.0
         self.confidence = max(0.0, min(float(confidence) if confidence is not None else 0.0, 1.0))
-        self.evidence_status = evidence_status
+        self.evidence_status = evidence_status or ""
         self.evidence_urls = evidence_urls or []
         self.courses = courses or []
 
@@ -58,5 +70,5 @@ class College:
             "confidence": self.confidence,
             "evidence_status": self.evidence_status,
             "evidence_urls": self.evidence_urls,
-            "courses": [vars(c) for c in self.courses]
+            "courses": [c.to_dict() for c in self.courses]
         }
