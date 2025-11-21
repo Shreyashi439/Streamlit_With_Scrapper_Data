@@ -11,17 +11,7 @@ class Courses:
         self.annual_fees = annual_fees if annual_fees is not None else 0
         self.entrance_exams = entrance_exams or []
         self.specializations = specializations or []
-    def to_dict(self):
-        return {
-            "name": self.name,
-            "description": self.description,
-            "duration": self.duration,
-            "degree_level": self.degree_level,
-            "seats": self.seats,
-            "annual_fees": self.annual_fees,
-            "entrance_exams": self.entrance_exams,
-            "specializations": self.specializations
-        }
+   
 
 
 class College:
@@ -70,5 +60,6 @@ class College:
             "confidence": self.confidence,
             "evidence_status": self.evidence_status,
             "evidence_urls": self.evidence_urls,
-            "courses": [c.to_dict() for c in self.courses]
+            "courses": [vars(c) for c in self.courses]
         }
+
