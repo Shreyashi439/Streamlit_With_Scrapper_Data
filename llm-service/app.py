@@ -541,7 +541,7 @@ if "colleges" in st.session_state:
         This will insert:
         - Colleges → `st_college` table
         - Courses → `st_course` table (deduplicated)
-        - Relationships → `st_college_course_jobs` table (job_id=null)
+        - Relationships → `st_college_courses` table
         
         ⚠️ **Note**: Job associations will be handled by CMS admin later.
         """)
@@ -607,7 +607,7 @@ if "colleges" in st.session_state:
                     2. Admin connects jobs to college-course relationships
                     3. Admin approves and promotes to production tables
                 
-                    **Note**: College-course relationships are already created in `st_college_course_jobs` with `job_id=null`
+                    **Note**: College-course relationships are already created in `st_college_courses``
                     """)
                 
                 except Exception as e:
@@ -752,6 +752,7 @@ if "colleges" in st.session_state:
 
     st.session_state["selected_colleges"] = selected_colleges
     st.success(f"{len(selected_colleges)} colleges selected for push.")
+
 
 
 
