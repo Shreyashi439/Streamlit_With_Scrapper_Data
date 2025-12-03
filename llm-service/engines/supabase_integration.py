@@ -23,7 +23,7 @@ class SupabaseIntegration:
         Tables populated:
         - st_college (colleges)
         - st_course (courses, deduplicated by name)
-        - st_college_course_jobs (many-to-many relationships, job_id=null)
+        - st_college_courses (many-to-many relationships)
         
         Returns:
             Dict with success/failure statistics
@@ -173,7 +173,7 @@ class SupabaseIntegration:
             bool: True if relationship created successfully
         """
         try:
-            existing = (self.client.table('st_college_course_jobs')
+            existing = (self.client.table('st_college_courses')
                        .select('id')
                        .eq('college_id', college_id)
                        .eq('course_id', course_id)
@@ -186,10 +186,10 @@ class SupabaseIntegration:
             link_data = {
                 'college_id': college_id,
                 'course_id': course_id,
-                'job_id': None
+                
             }
             
-            response = self.client.table('st_college_course_jobs').insert(link_data).execute()
+            response = self.client.table('st_college_courses').insert(link_data).execute()
             
             if response.data and len(response.data) > 0:
                 print(f"Created relationship")
@@ -265,7 +265,7 @@ class SupabaseIntegration:
         try:
             colleges_count = len(self.client.table('st_college').select('id').execute().data)
             courses_count = len(self.client.table('st_course').select('id').execute().data)
-            relationships_count = len(self.client.table('st_college_course_jobs').select('id').execute().data)
+            relationships_count = len(self.client.table('st_college_courses').select('id').execute().data)
             
             colleges_data = self.client.table('st_college').select('confidence_level').execute().data
             confidence_breakdown = {}
@@ -309,7 +309,7 @@ class SupabaseIntegration:
     async def clear_staging_tables(self) -> Dict:
         """Clear all data from staging tables (use with caution!)"""
         try:
-            relationship_response = self.client.table('st_college_course_jobs').delete().neq('id', '00000000-0000-0000-0000-000000000000').execute()
+            relationship_response = self.client.table('st_college_courses').delete().neq('id', '00000000-0000-0000-0000-000000000000').execute()
 
             college_response = self.client.table('st_college').delete().neq('id', '00000000-0000-0000-0000-000000000000').execute()
 
@@ -323,4 +323,5 @@ class SupabaseIntegration:
             }
         except Exception as e:
             print(f"Error clearing staging tables: {e}")
+
             return {'success': False, 'error': str(e)}
